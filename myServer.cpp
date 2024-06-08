@@ -15,7 +15,7 @@ void myServer::startServer(){
   
     ClientSocket = socket(AF_INET,SOCK_STREAM,0);
     if(ClientSocket == INVALID_SOCKET){
-        std::cout << "error at socket():" << WSAGetLastError() << std::endl;
+        std::cout << "error at socket():" << std::endl;
         WIN(WSACleanup());
     }
     else
