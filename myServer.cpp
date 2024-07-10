@@ -15,7 +15,7 @@ void myServer::startServer(){
   
     ClientSocket = socket(AF_INET,SOCK_STREAM,0);
     if(ClientSocket == INVALID_SOCKET){
-        std::cout << "error at socket():" << WSAGetLastError() << std::endl;
+        std::cout << "error at socket():" << std::endl;
         WIN(WSACleanup());
     }
     else
@@ -42,23 +42,17 @@ void myServer::startServer(){
         std::cout << "connected to the server" << std::endl;
 };
 
-void myServer::recFrom(std::string* stopSlovo){
+std::string& myServer::recFrom(){
     bzero(recvBuff, recvBuffLen);
     message.clear();
     recv(ClientSocket,recvBuff,recvBuffLen,0);
     message = recvBuff;
-    if(message == "end connection"){
-        this->stopSlovo = true;
-        return;
-    }
-    std::cout << message << std::endl;
+    return message;
 };
 
-void myServer::sendTo(){
-    bzero(recvBuff, recvBuffLen);
-    message.clear();
-    std::getline(std::cin, message, '\n');
-    send(ClientSocket,message.c_str(),message.length(),0);
+void myServer::sendTo(std::string& strToServ){
+    send(ClientSocket,strToServ.c_str(),strToServ.length(),0);
+    strToServ.clear();
 };
 
 void myServer::stopServer(){

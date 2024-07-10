@@ -1,28 +1,37 @@
 #pragma once
 #include <iostream>
 #include <string.h>
+#include <limits>
+#include "myServer.h"
 
+#if defined(_WIN32)
+#define clear_screen() system("cls")
+#elif defined(_WIN64)
+#define clear_screen() system("cls")
+#elif defined(__linux__)
+#define clear_screen() system("clear")
+#endif
 
+constexpr auto max_size = std::numeric_limits<std::streamsize>::max();
 
 class chatFunc{
 public:
     chatFunc();
     ~chatFunc();
 
-    void showMainMenu(int& x);
-    void signIn(std::string& signcom);
-    void registration(std::string& regcom);
+    std::string showMainMenu();
+    bool signIn();
+    bool registration();
     bool checkAuth(std::string& checkstr);
-    //void closeProg();
-    void showSecondMenu(int& x);
-    void showAllUsers(); // прописать код для чаттинга
-    void showAllChats(); // прописать код для чаттинга
-    //void signOut();
-
-    std::string makeCommand();
+    std::string showSecondMenu();
+    void chatting(int x, std::string& wayOfChoose);
+    void showAllUsers();
+    void showAllChats();
+    void signOut();
+    int inputCommand(int& x, std::string interfaceLine);
+    std::string parsedPart(std::string& stringLine);
 private:
+    myServer serv;
     std::string _login;
-
-
-
+    std::string delim = "%";
 };

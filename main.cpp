@@ -1,5 +1,4 @@
 #include <iostream>
-#include "myServer.h"
 #include "chatFunc.h"
 
 #if defined(_WIN32)
@@ -11,20 +10,22 @@
 #endif
 
 int main(){
-    myServer serv;
+    //myServer serv;
     bool session = true;
-    bool chatCon = false;
+    
     std::string* stopSlovo = nullptr;
-    std::string cmdstr;
-    serv.startServer();
+    //serv.startServer();
 
     //add one more WHILE() ???
 
     while(session){
         chatFunc chat;
+        std::string stringLine = chat.showMainMenu();
         int choice;
-        chat.showMainMenu(choice);
-
+        bool chatCon = false;
+        clear_screen();
+        std::cout << stringLine;
+        chat.inputCommand(choice, stringLine);
         if(choice == 3){
             std::cout << "end connection";
             session = false;
@@ -34,20 +35,18 @@ int main(){
         switch(choice){
             case 1:
             {
-                chat.signIn(cmdstr);
-                serv.sendTo(cmdstr);
-                chatCon = chat.checkAuth(serv.recFrom(stopSlovo));
+                 chatCon = chat.signIn();
+                 break;
             }
             case 2:
             {
-                chat.registration(cmdstr);
-                serv.sendTo(cmdstr);
-                chatCon = chat.checkAuth(serv.recFrom(stopSlovo));
+                chatCon = chat.registration();
+                break;
             }
             default:
             {
                 std::cout << "Ошибка ввода!\n";
-                //break;
+                break;
             }
         }
         
@@ -55,9 +54,13 @@ int main(){
             bool inChatCon = true;
             while(inChatCon){
                 int inChat;
-                chat.showSecondMenu(inChat);
+                clear_screen();
+                stringLine = chat.showSecondMenu();
+                std::cout << stringLine;
+                chat.inputCommand(inChat, stringLine);
                 if(inChat == 3){
                     std::cout << "выход из аккаунта";
+                    chat.signOut();
                     inChatCon = false;
                     break;
                 }
@@ -65,28 +68,22 @@ int main(){
                     case 1:
                     {
                         chat.showAllUsers();
+                        break;
                     }
                     case 2:
                     {
                         chat.showAllChats();
+                        break;
+                    }
+                    default:
+                    {
+                        std::cout << "Ошибка ввода!\n";
+                        break;
                     }
                 }
-
-
             }
         }
-
-        // while(1){
-        //     clear_screen();
-        //     serv.recFrom(stopSlovo);
-        //     if(serv.checkEnd())
-        //         break;
-        //     else
-        //         serv.sendTo();
-        // }
-
     }
-    serv.stopServer();
 
     return 0;
 }

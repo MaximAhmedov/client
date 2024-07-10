@@ -29,7 +29,7 @@ extern WSADATA wsaData;
 #endif
 
 #define PORT 7777
-#define Buff 512
+#define Buff 1024
 
 
 class myServer{
@@ -39,8 +39,8 @@ public:
 myServer();
 ~myServer();
 void startServer();
-void recFrom(std::string* stopSlovo);
-void sendTo();
+std::string& recFrom();
+void sendTo(std::string& strToServ);
 void stopServer();
 bool checkEnd();
 
