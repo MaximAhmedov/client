@@ -9,14 +9,14 @@
 #define clear_screen() system("clear")
 #endif
 
-int main(){
-    //myServer serv;
-    bool session = true;
-    
-    std::string* stopSlovo = nullptr;
-    //serv.startServer();
+#define WIN(exp) exp
+#define NIX(exp)
 
-    //add one more WHILE() ???
+int main(){
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
+    bool session = true;
 
     while(session){
         chatFunc chat;
@@ -45,7 +45,7 @@ int main(){
             }
             default:
             {
-                std::cout << "Ошибка ввода!\n";
+                std::cout << "Input Error!\n";
                 break;
             }
         }
@@ -59,7 +59,7 @@ int main(){
                 std::cout << stringLine;
                 chat.inputCommand(inChat, stringLine);
                 if(inChat == 3){
-                    std::cout << "выход из аккаунта";
+                    std::cout << "Logout";
                     chat.signOut();
                     inChatCon = false;
                     break;
@@ -77,7 +77,7 @@ int main(){
                     }
                     default:
                     {
-                        std::cout << "Ошибка ввода!\n";
+                        std::cout << "Input Error!\n";
                         break;
                     }
                 }

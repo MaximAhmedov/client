@@ -12,7 +12,7 @@ chatFunc::~chatFunc()
 
 std::string chatFunc::showMainMenu()
 {
-    return "\t1 - Войти\n \t2 - Регистрация\n \t3 - Выход\n";
+    return "\t1 - Sign in\n \t2 - Registration\n \t3 - Exit\n";
 }
 
 bool chatFunc::signIn()
@@ -21,11 +21,11 @@ bool chatFunc::signIn()
     std::string tmpLogin;
     std::string tmpPass;
     std::string signcom;
-    std::cout << "Введите 0 для возврата на предыдущий экран или следуйте командам:\nВедите логин\n";
+    std::cout << "Enter 0 to return or follow the commands:\nEnter login\n";
     std::cin >> this->_login;
     if (this->_login[0] == '0' && this->_login.size() == 1)
 		    return false;
-    std::cout << "Введите пароль\n";
+    std::cout << "Enter pasword\n";
     std::cin >> tmpPass;
     if (tmpPass[0] == '0' && tmpPass.size() == 1)
 		    return false;
@@ -43,19 +43,19 @@ bool chatFunc::registration()
     std::string tmpPass2;
     std::string regcom;
     while(true){
-        std::cout << "Введите 0 для возврата на предыдущий экран или следуйте командам:\nВедите имя\n";
+        std::cout << "Enter 0 to return or follow the commands:\nEnter name\n";
         std::cin >> tmpName;
         if (tmpName[0] == '0' && tmpName.size() == 1)
 		    return false;
-        std::cout << "Введите логин\n";
+        std::cout << "Enter login\n";
         std::cin >> this->_login;
         if (this->_login[0] == '0' && this->_login.size() == 1)
 		    return false;
-        std::cout << "Введите пароль\n";
+        std::cout << "Enter password\n";
         std::cin >> tmpPass;
         if (tmpPass[0] == '0' && tmpPass.size() == 1)
 		    return false;
-        std::cout << "Повторите пароль\n";
+        std::cout << "Repeat password\n";
         std::cin >> tmpPass2;
         if (tmpPass2[0] == '0' && tmpPass2.size() == 1)
 		    return false;
@@ -66,7 +66,7 @@ bool chatFunc::registration()
         }
         else{
             clear_screen();
-            std::cout << "неверный ввод повторного пароля!\n";
+            std::cout << "Incorrect re-password entry!\n";
         }
     }
 }
@@ -82,7 +82,7 @@ bool chatFunc::checkAuth(std::string &checkstr)
 
 std::string chatFunc::showSecondMenu()
 {
-    return "\t1 - Все пользователи\n \t2 - Мои Сообщения\n \t3 - Выход из аккаунта\n";
+    return "\t1 - All users\n \t2 - My messages\n \t3 - Sign out\n";
 }
 
 void chatFunc::chatting(int x, std::string& wayOfChoose)
@@ -96,13 +96,11 @@ void chatFunc::chatting(int x, std::string& wayOfChoose)
         this->serv.sendTo(tmpstr);
         text.clear();
         text = this->serv.recFrom();
-        // if(text == "error input"){
-        //     std::cout << "некорректный ввод!!!\n";
-        //     break;
-        // }
-        std::cout << text << "\nВведите сообщение и нажмите Enter для отправки, для возврата отправьте 0\n";
+
+        std::cout << text << "\nEnter your message and press Enter to send, to return send 0\n";
         text.clear();
         std::getline(std::cin, text, '\n');
+        
         if (text[0] == '0' && text.size() == 1){
             clear_screen();
             break;
@@ -123,8 +121,7 @@ void chatFunc::showAllUsers()
     tmpstr.clear();
     tmpstr = this->serv.recFrom();
     int amountOfUsers = std::stoi(parsedPart(tmpstr));
-    tmpstr += "Выберите пользователя или введите 0 для возврата\n";
-    //std::cout << tmpstr;
+    tmpstr += "\nSelect a user or enter 0 to return\n";
     while(true){
     std::cout << tmpstr;
     this->inputCommand(x, tmpstr);
@@ -134,7 +131,7 @@ void chatFunc::showAllUsers()
     }
     else if(x >= 1 && x > amountOfUsers){
         clear_screen();
-        std::cout << "Несуществующий номер пользователя!!!\n";
+        std::cout << "Non-existent user number!!!\n";
         continue;
     }
     else
@@ -151,7 +148,7 @@ void chatFunc::showAllChats()
     tmpstr.clear();
     tmpstr = this->serv.recFrom();
     int amountOfChats = std::stoi(parsedPart(tmpstr));
-    tmpstr += "Выберите номер диалога или 0 для возврата\n";
+    tmpstr += "\nSelect the dialog number or 0 to return\n";
     while(true){
     std::cout << tmpstr;
     this->inputCommand(x, tmpstr);
@@ -161,7 +158,7 @@ void chatFunc::showAllChats()
     }
     else if(x >= 1 && x > amountOfChats){
         clear_screen();
-        std::cout << "Несуществующий номер диалога!!!\n";
+        std::cout << "Non-existent dialogue number!!!\n";
         continue;
     }
     else
@@ -179,7 +176,7 @@ int chatFunc::inputCommand(int& x, std::string interfaceLine)
     while(!(std::cin >> x))
     {
         clear_screen();
-        std::cout << "некорректный ввод!!!\n\n";
+        std::cout << "Incorrect input!!!\n\n";
         std::cout << interfaceLine;
         std::cin.clear();
         std::cin.ignore(max_size, '\n');   
