@@ -2,12 +2,16 @@
 
 chatFunc::chatFunc()
 {
-    this->serv.startServer();
 }
 
 chatFunc::~chatFunc()
 {
     this->serv.stopServer();
+}
+
+bool chatFunc::start(const char *x)
+{
+    return this->serv.startServer(x);
 }
 
 std::string chatFunc::showMainMenu()

@@ -18,7 +18,7 @@ class chatFunc{
 public:
     chatFunc();
     ~chatFunc();
-
+    bool start(const char *x = "127.0.0.1");
     std::string showMainMenu();
     bool signIn();
     bool registration();

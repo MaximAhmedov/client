@@ -38,7 +38,7 @@ public:
 
 myServer();
 ~myServer();
-void startServer();
+bool startServer(const char* x);
 std::string& recFrom();
 void sendTo(std::string& strToServ);
 void stopServer();

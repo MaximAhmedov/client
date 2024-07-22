@@ -4,11 +4,12 @@ myServer::myServer(){};
 myServer::~myServer(){
 
 };
-void myServer::startServer(){
+bool myServer::startServer(const char* x){
     WIN(WSADATA wsaData;);
     WIN(iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if(iResult != 0){
         std::cout << "WSAStartup failed: " << iResult << std::endl;
+        return false;
     }
     else
         std::cout << "WSAStartup is ok" << std::endl;);
@@ -17,12 +18,13 @@ void myServer::startServer(){
     if(ClientSocket == INVALID_SOCKET){
         std::cout << "error at socket():" << std::endl;
         WIN(WSACleanup());
+        return false;
     }
     else
         std::cout << "socket() is ok" << std::endl;
 
     serveraddress.sin_family = AF_INET;
-    serveraddress.sin_addr.s_addr = inet_addr("127.0.0.1");
+    serveraddress.sin_addr.s_addr = inet_addr(x);
     serveraddress.sin_port = htons(PORT);
 
     iResult = connect(ClientSocket,(struct sockaddr*)&serveraddress, sizeof(serveraddress));
@@ -30,6 +32,7 @@ void myServer::startServer(){
         std::cout << "connect error" << std::endl;
         WIN(closesocket(ClientSocket))NIX(close(ClientSocket));
         WIN(WSACleanup());
+        return false;
     }
     else
         std::cout << "connect is ok" << std::endl;
@@ -37,9 +40,11 @@ void myServer::startServer(){
     if(ClientSocket == INVALID_SOCKET){
         std::cout << "unable to connect to server" << std::endl;
         WIN(WSACleanup());
+        return false;
     }
     else
         std::cout << "connected to the server" << std::endl;
+    return true;
 };
 
 std::string& myServer::recFrom(){

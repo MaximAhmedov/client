@@ -15,11 +15,35 @@
 int main(){
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
+    chatFunc chat;
+    char x[16];
+    int ipChoice;
+    bool session = false;
 
-    bool session = true;
-
+    while(!session){
+    
+    std::string ipLine = "Is the server on this PC? \n\t1 - yes\n\t2 - no\n";
+    std::cout << ipLine;
+    chat.inputCommand(ipChoice,ipLine);
+    switch(ipChoice){
+        case 1:{
+            session = chat.start();
+            break;
+        }
+        case 2:{
+            std::cout << "input IP:\n";
+            std::cin >> x;
+            session = chat.start(x);
+            break;
+        }
+        default:{
+            clear_screen();
+            std::cout << "Input Error!\n\n";
+            break;
+        }
+    }
+    }
     while(session){
-        chatFunc chat;
         std::string stringLine = chat.showMainMenu();
         int choice;
         bool chatCon = false;
