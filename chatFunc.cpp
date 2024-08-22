@@ -328,7 +328,13 @@ void chatFunc::messagesHandling(std::string &messages)
         std::string text = parsedPart(messages);
 
 
-        std::cout << time + " | " << senderLog << " | ";
+        std::cout << time + " | "; 
+        if(senderLog.size()<12){
+            std::cout << senderLog << std::string(12 - senderLog.size(), ' ') << " | ";
+        }
+        else{
+            std::cout << senderLog.substr(0,12) << " | ";
+        }
         if(text.size() >= 64){
             std::string prevPart;
             while(text.size()>= 64){
