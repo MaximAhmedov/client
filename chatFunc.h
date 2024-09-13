@@ -1,10 +1,12 @@
 #pragma once
 #include <iostream>
 #include <string.h>
+#include <wchar.h>
 #include <limits>
 #include "myServer.h"
 #include "Sha1.h"
 #include<map>
+#include<vector>
 
 #define LOGINLENGTH 10
 
@@ -25,6 +27,7 @@ public:
     bool start(const char *x = "127.0.0.1");
     bool mainMenu(bool & session);
     void secondMenu();
+    void isBanned();
     bool signIn();
     bool registration();
     bool checkAuth(std::string& checkstr);
@@ -37,10 +40,13 @@ public:
     std::string makePass(std::string& pasw);
     std::string responseHandling(std::string& response);
     void messagesHandling(std::string& messages);
+
+
 private:
     std::pair<std::string,std::string> logName;
     std::map<int, std::pair<std::string,std::string>> userContainer;
     myServer serv;
     std::string _login;
+    bool status = false;
     std::string delim = "%";
 };

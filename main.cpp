@@ -13,9 +13,12 @@
 #define NIX(exp)
 
 int main(){
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-    
+    //setlocale(LC_ALL,"Russian");
+    // SetConsoleCP(1251);
+    // SetConsoleOutputCP(1251);
+    //SetConsoleCP(CP_UTF8);
+    //SetConsoleOutputCP(CP_UTF8);
+
     bool session = false;
     chatFunc chat(session);
 

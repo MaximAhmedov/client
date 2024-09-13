@@ -75,6 +75,7 @@ void chatFunc::secondMenu()
 {
     bool inChatCon = true;
     while(inChatCon){
+        isBanned();
         int inChat;
         std::string showSM = "\t1 - All users\n \t2 - My messages\n \t3 - Sign out\n";
         clear_screen();
@@ -102,6 +103,22 @@ void chatFunc::secondMenu()
                 break;
             }
         }
+    }
+}
+
+void chatFunc::isBanned()
+{
+    std::string cmd = "ISBAN" + delim + this->_login + delim;
+    this->serv.sendTo(cmd);
+    int x = 0;
+    std::string tmp;
+    tmp = this->serv.recFrom();
+    x = std::stoi(tmp);
+    status = x;
+    if(status){
+        std::cout << "You're banned, close app and go to touch some grass\n";
+        system("pause");
+        exit (1);
     }
 }
 
@@ -172,10 +189,11 @@ void chatFunc::chatting(int x)
 {
     std::string text;
     std::string friendLogin = userContainer.at(x).first;
-    std::string tmpstr = "CHATW%" + this->_login + delim + friendLogin + delim;
     std::cin.ignore();
     while(true){
         clear_screen();
+        isBanned();
+        std::string tmpstr = "CHATW%" + this->_login + delim + friendLogin + delim;
         this->serv.sendTo(tmpstr);
         text.clear();
         text = this->serv.recFrom();
@@ -185,7 +203,6 @@ void chatFunc::chatting(int x)
         std::cout << text << "\nEnter your message and press Enter to send, to return send 0\n";
         text.clear();
         std::getline(std::cin, text, '\n');
-        
         if (text[0] == '0' && text.size() == 1){
             clear_screen();
             break;
@@ -199,6 +216,7 @@ void chatFunc::chatting(int x)
 
 void chatFunc::showAllUsers()
 {
+    isBanned();
     clear_screen();
     int x = 0;
     std::string tmpstr = "ALLUSER%" + this->_login + delim;
@@ -228,6 +246,7 @@ void chatFunc::showAllUsers()
 
 void chatFunc::showAllChats()
 {
+    isBanned();
     clear_screen();
     int x = 0;
     std::string tmpstr = "ALLCHATS%" + this->_login + delim;
@@ -357,3 +376,5 @@ void chatFunc::messagesHandling(std::string &messages)
         
     }
 }
+
+
